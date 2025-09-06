@@ -33,6 +33,11 @@ struct extract_value_type<synchronized_value<T>&> {
 };
 
 template<typename T>
+struct extract_value_type<const synchronized_value<T>&> {
+    using type = const T&;
+};
+
+template<typename T>
 using extract_value_type_t = typename extract_value_type<T>::type;
 
 template<class T>
@@ -41,7 +46,7 @@ class synchronized_value {
 
 private:
     T value;
-    std::mutex mut;
+    mutable std::mutex mut;
 
     template<class F, class... SyncValues>
     friend
