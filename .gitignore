@@ -1,4 +1,5 @@
 example_basic
 example_const
 example_different_lockables
+example_shared
 *.o
