@@ -83,6 +83,24 @@ BM::apply([](const auto& read_data, auto& write_log) {
 }, data.share(), log);
 ```
 
+### Using Declarations for Cleaner Code
+```cpp
+using BM::synchronized_value;
+using BM::apply;
+
+// Template alias for convenience
+template<typename T, typename Mutex = std::mutex>
+using SV = synchronized_value<T, Mutex>;
+
+// Now you can write cleaner code
+SV<int> counter(0);
+apply([](auto& c) { ++c; }, counter);
+
+// Works seamlessly with custom mutexes
+SV<std::string, std::shared_mutex> data("Hello");
+apply([](const auto& s) { return s.size(); }, data.share());
+```
+
 ## Build & Test
 ```bash
 make test        # Build and run examples
